@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Redirect</title>
+{% endblock title %}
+
+{% block content %}
+
+{% if link %}
+<h3>Redirecting</h3>
+<p>Attempting to redirect.</p>
+<p>If this does not work, click <a href="{{ link }}">here</a></p>
+<script type="text/javascript">
+    window.location.href = "{{ link }}";
+</script>
+
+{% else %}
+<h3>Oops</h3>
+<p>This URL does not exist</p>
+{% endif %}
+{% endblock content %}

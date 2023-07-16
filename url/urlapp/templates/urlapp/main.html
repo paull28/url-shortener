@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>URL Shortener</title>
+{% endblock title %}
+
+{% block content %}
+<h2>Shorten a URL</h2>
+{% if error %}
+<div class="error-container">
+    <span>{{error}}</span>
+</div> 
+{% endif %}
+<form method="POST" enctype="multipart/form-data">
+    <!-- Security token -->
+    {% csrf_token %}
+    <!-- Using the formset -->
+    <div class="form-group">
+        <div class="field">
+            <h3>Source URL</h3>
+            {{ form.source}}
+        </div>
+        <div class="field">
+            <h3>New URL (optional)</h3>
+            <span id="input">{{ form.new}}</span>
+        </div>
+        <div class="field">
+        <p>Your URL: </p>
+        <span id="complete-url">/shorten/</span>
+    </div>
+        
+    </div>
+    <input type="submit" id="submit" class="submit" value="Submit">
+   </form>
+
+<script>
+    const sourceurl = document.getElementById("id_source");
+    const newurl = document.getElementById("id_new");
+    const complete = document.getElementById("complete-url");
+    const submit = document.getElementById("submit");
+
+    function validateFields() {
+        var sourceBack = sourceurl.value;
+        var newBack = newurl.value;
+        complete.textContent = "/shorten/" + newBack;
+
+        if (sourceBack.indexOf(' ') === -1 && newBack.indexOf(' ') === -1) {
+            submit.classList.remove("disabled");
+        } else {
+            submit.classList.add("disabled");
+        }
+    }
+
+    sourceurl.addEventListener("input", validateFields);
+    newurl.addEventListener("input", validateFields);
+</script>
+
+{% endblock content %}
